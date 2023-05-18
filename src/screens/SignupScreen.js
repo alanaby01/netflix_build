@@ -21,9 +21,16 @@ function SignupScreen() {
     };
     const signIn = (e) => {
         e.preventDefault();
-        
+        createUserWithEmailAndPassword(
+            auth,
+            emailRef.current.value,
+            passwordRef.current.value
+        ).then((authUser) => {
+            console.log(authUser)
+        }).catch((error) => {
+            alert(error.message);
+        })
     }
-    console.log(emailRef.current.value);
     return (
         <div className='signupScreen'>
             <form>

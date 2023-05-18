@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import HomeScreen from './screens/HomeScreen';
 import './App.css';
 import LoginScreen from './screens/LoginScreen';
@@ -6,6 +6,7 @@ import {
   createBrowserRouter,
   RouterProvider,
 } from "react-router-dom";
+import { auth } from './firebase';
 
 
 const router = createBrowserRouter([
@@ -25,8 +26,30 @@ const router = createBrowserRouter([
 ]);
 
 function App() {
+  const user = null;
+  useEffect(() => {
+    auth.onAuthStateChanged(userAuth => {
+      if(userAuth) {
+        //Logged in
+        // console.log(userAuth);
+      }
+      else {
+        //Logged out  
+      }
+    })
+  }, []);
+
   return (
-    <RouterProvider router={router} />
+    <>
+      <div className='app'>
+        {!user ? (
+          <LoginScreen></LoginScreen>
+        ) : (
+          <HomeScreen></HomeScreen>
+        )}
+      </div>
+      {/* <RouterProvider router={router} /> */}
+    </>
   );
 }
 
