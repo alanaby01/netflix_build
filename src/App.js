@@ -28,7 +28,7 @@ const router = createBrowserRouter([
 function App() {
   const user = null;
   useEffect(() => {
-    auth.onAuthStateChanged(userAuth => {
+    const unsubscribe = auth.onAuthStateChanged(userAuth => {
       if(userAuth) {
         //Logged in
         // console.log(userAuth);
@@ -36,7 +36,9 @@ function App() {
       else {
         //Logged out  
       }
-    })
+    });
+
+    return unsubscribe;
   }, []);
 
   return (
