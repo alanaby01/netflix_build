@@ -7,10 +7,11 @@ import {
   RouterProvider,
 } from "react-router-dom";
 import { auth } from './firebase';
-
+import { useDispatch, useSelector } from 'react-redux';
+import { login, logout, selectUser } from './features/userSlice'
 
 const router = createBrowserRouter([
-  {
+  { 
     path: "/",
     element: <HomeScreen></HomeScreen>,
   },
@@ -26,15 +27,22 @@ const router = createBrowserRouter([
 ]);
 
 function App() {
-  const user = null;
+  const user = useSelector(selectUser);
+  const dispatch = useDispatch();
+
   useEffect(() => {
     const unsubscribe = auth.onAuthStateChanged(userAuth => {
       if(userAuth) {
         //Logged in
-        // console.log(userAuth);
+        console.log(userAuth);
+        dispatch(login({
+          uid: userAuth.uid,
+          email: userAuth.email
+        }))
       }
       else {
         //Logged out  
+        dispatch(logout);
       }
     });
 
