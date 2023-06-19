@@ -1,6 +1,6 @@
 import { initializeApp } from 'firebase/app';
 import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
-import { getFirestore } from 'firebase/firestore/lite';
+import { getFirestore } from 'firebase/firestore';
 const firebaseConfig = {
     apiKey: "AIzaSyAiRbpjc246Bs7lcot9Zv3XLRv_x3-PHAg",
     authDomain: "netflix-app-16384.firebaseapp.com",
