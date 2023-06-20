@@ -7,23 +7,33 @@ import { collection, query, where, getDocs } from "firebase/firestore";
 function PlansScreen() {
     const [products, setProducts] = useState([]);
     useEffect(() => {
+        const fetchData = async () => {
             const q = query(collection(db, "products"), where("active", "==", true));
-            const querySnapshot = getDocs(q);
-            querySnapshot.then((docs) => {
-                docs.forEach((doc) => {
-                    console.log(doc.id, " => ", doc.data());
-                    products[doc.id] =  {
-                        priceId: doc.id,
+            const querySnapshot = await getDocs(q);
+            querySnapshot.forEach((doc) => {
+                    products[doc.id] = {
                         priceData: doc.data()
                     }
-            });
-            setProducts(products);
-        });
+                });
+                setProducts(products);
+        }   
+        fetchData();
+        
     }, [])
-    console.log(products);
-    return (
+    return ( 
         <div className='plansScreen'>
-            <h1>Plans</h1>
+            {Object.entries(products).map(([productId, productData]) => {
+                console.log(productData.priceData.name);
+                return (
+                    <div className='PlanScreen__plan'>
+                        <div className='PlanScreen__info'>
+                            <h5>{productData.priceData.name}</h5>
+                            <h6>{productData.priceData.description}</h6>
+                        </div>
+                        <button>Subscribe</button>
+                    </div>
+                )
+            })}
         </div>
     );
 }
